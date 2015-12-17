@@ -174,7 +174,6 @@ Now inside of `homeCtrl.js` instead of setting `$scope.myProfile` equal to a fri
 The last step for today will be adding functionality to our delete button. This will follow the same basic steps as adding to local storage.
 
 Add an `ng-click` to the 'Delete' button that calls a `deleteProfile` function inside of our controller. Our controller should call a `profileService.deleteProfile` function that simply removes the profile from local storage (`localStorage.removeItem('profile')`). After deleting the profile, we need to get our basic friends list back, so set `$scope.myProfile` equal to `profileService.checkForProfile()` again.
-<<<<<<< HEAD
 
 You've completed Angular day two! Now you know how to create services, access services inside of your controllers, handle clicks, and save to local storage.
 
@@ -187,7 +186,7 @@ Yesterday we stored our profiles in local storage, allowing them to persist betw
 
 Before we start writing our new code, let's make some adjustments. Delete the array of friends from the `profileService.checkForProfile` function and run `localStorage.removeItem('myProfile')` in your console so we can start fresh.
 
-To begin, we need to inject Angular's built in `$http` service into our `profileService`. `$http` will allow us to make HTTP requests for any CRUD operation (Create, Read, Update, Delete). We will also need to create a variable named `baseUrl` and set it equal to _**--BASEURL FIXME--**_.
+To begin, we need to inject Angular's built in `$http` service into our `profileService`. `$http` will allow us to make HTTP requests for any CRUD operation (Create, Read, Update, Delete). We will also need to create a variable named `baseUrl` and set it equal to _http://connections.devmounta.in/_.
 
 We're going to adjust our `saveProfile` function inside of `profileService`. Now instead of saving our whole profile to local storage, we want to post it to the database, and just save the unique `_id` the database sends back to us. Let's delete everything we currently have inside of the function and start from scratch.
 

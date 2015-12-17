@@ -1,23 +1,57 @@
-angular.module('devMtIn').service('profileService', function() {
+angular.module('devMtIn').service('profileService', function($http) {
+
+  var baseUrl = 'http://connections.devmounta.in/';
+
   this.serviceTest = function() {
     console.log('Profile service is connected!');
   };
 
-  this.saveProfile = function(profileObj) {
-    localStorage.setItem('profile', JSON.stringify(profileObj));
-    console.log(localStorage.profile);
+  this.postProfile = function(profileObj) {
+    return $http({
+      method: 'POST',
+      url: baseUrl + 'api/profiles',
+      data: profileObj
+    })
+    .then(
+      function(response) {
+        localStorage.setItem('profileId', response.data._id);
+      })
+    .catch(
+      function(err) {
+        console.log(err);
+      }
+    );
   };
 
-  this.checkForProfile = function() {
-    if (localStorage.profile) {
-      return JSON.parse(localStorage.profile);
-    }
-    return {
-      friends: [{name: 'Ryan'}, {name: 'Bryan'}, {name: 'Sarah'}, {name: 'Zac'}, {name: 'Erin'}] 
-    }
+  this.getProfile = function(profileId) {
+    return $http({
+      method: 'GET',
+      url: baseUrl + 'api/profiles/' + profileId
+    })
+    .then(
+      function(response) {
+        return response.data;
+      },
+      function(response) {
+        console.log('error with code ' + response.status);
+      }
+    );
   };
 
-  this.deleteProfile = function() {
-    delete localStorage.profile;
+  this.deleteProfile = function(profileId) {
+    return $http({
+      method: 'DELETE',
+      url: baseUrl + 'api/profiles/' + profileId
+    })
+    .then(
+      function(response) {
+        console.log("Profile successfully deleted");
+        console.log(response);
+        return response.data;
+      },
+      function(response) {
+        console.log("Failed to delete profile, error code: " + response.status);
+      }
+    );
   };
 });

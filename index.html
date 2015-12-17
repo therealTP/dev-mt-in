@@ -17,7 +17,7 @@
   <div class="wrapper" >
     <div>
       <h2>Profile</h2>
-      <button class="l-btn l-btn-main" ng-click="editing=!editing"><span ng-hide="!editing">Editing :</span><span ng-hide="editing">Click to Edit.</span></button>
+      <button class="l-btn l-btn-main" ng-click="editing=!editing"><span ng-hide="!editing">Editing :</span><span ng-hide="editing">Click to Edit/ Add New Profile</span></button>
     </div>
 
     <div>
@@ -32,6 +32,7 @@
       <br />
       <button ng-click="saveProfile(myProfile)" class="l-btn l-btn-success">Save</button>
       <button ng-click="deleteProfile()" class="l-btn l-btn-danger">Delete</button>
+      <span class="msg-text">{{message}}</span>
     </div>
   </div>
 

@@ -1,8 +1,22 @@
 angular.module('devMtIn').controller('homeCtrl', function($scope, profileService) {
 
-  $scope.myProfile = profileService.checkForProfile();
-
   profileService.serviceTest();
+
+  $scope.checkForProfile = function() {
+    var profileId = localStorage.profileId;
+    if (profileId) {
+      profileService.getProfile(profileId)
+      .then(
+        function(response) {
+          $scope.myProfile = response;
+        }
+      );
+    } else {
+      console.log('profile not found.');
+    }
+  };
+
+  $scope.checkForProfile();
 
   $scope.sortOptions = [
     {
@@ -18,11 +32,23 @@ angular.module('devMtIn').controller('homeCtrl', function($scope, profileService
   $scope.editing = false;
 
   $scope.saveProfile = function(profileObj) {
-    profileService.saveProfile(profileObj);
-    $scope.editing = false; // switch off editing
+    profileService.postProfile(profileObj)
+    .then( // once promise fulfilled from profileService
+      function(response) {
+        $scope.editing = false; // switch off editing
+        $scope.message = 'Profile created!';
+      }
+    );
   };
 
   $scope.deleteProfile = function() {
-    profileService.deleteProfile();
+    profileService.deleteProfile(localStorage.profileId)
+    .then(
+      function(response) {
+        delete localStorage.profileId;
+        $scope.myProfile = {};
+        $scope.message = 'Profile deleted.';
+      }
+    );
   };
 });
