@@ -72,20 +72,21 @@ angular.module('devMtIn').service('friendService', function($http, $q) {
           })
           .then(
             function(friends) { // assign each of your friends friends to your friends (on your profile object)
-              profile.friends[index].friends = friends;
+              profile.friends[index].friends = friends.data;
               index++; // increment the index
               getNextFriend(); // repeat for next friend, until no friends left
-            },
-            function(err) {
-              return console.error(err);
             }
           );
-        } else { // when no friends left, resolve promise with profile object, return promise
+        } else { // when no friends left, resolve promise with updated profile object, return promise
+          // console.log(profile.friends[6].friends.data[0].name); // profile object has data for Chewbacca's friends, accecible with console.log
           deferrer.resolve(profile);
-          return deferrer.promise;
+          // return deferrer.promise;
         }
       }
 
-      getNextFriend(); // invoke inner function to get it started
+      getNextFriend();
+      return deferrer.promise;
+
+      // invoke inner function to get it started
     };
 });

@@ -44,15 +44,17 @@
     <select ng-model="sortReverse" ng-options="option.value as option.display for option in sortOptions">
 
     </select>
-    <div class="friendList" ng-repeat="friend in myProfile.friends | filter: findFriend | orderBy: 'name' : sortReverse">
+    <div style="height: 100px" class="friendList" ng-repeat="friend in myProfile.friends | filter: findFriend | orderBy: 'name' : sortReverse">
       <div>
         <span class="closeBtn" ng-click="deleteFriend(friend._id)"></span>
         {{ friend.name }}
-        Second Connection: {{ friend.friends[0]}}
-        <br/>
-        <!-- <span ng-repeat="item in friend.friends" class="secondConnection friendList">
-          {{item}}
-        </span> -->
+        <p>
+          Second Connections:
+        </p>
+        <p ng-repeat="item in friend.friends">
+          <button ng-click="addFriend(item._id)">Add</button>
+          <span>{{item.name}}</span>
+        </p>
       </div>
     </div>
   </div> <!--container-->

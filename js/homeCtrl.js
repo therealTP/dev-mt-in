@@ -9,16 +9,37 @@ angular.module('devMtIn').controller('homeCtrl', function($scope, profileService
       profileService.getProfile(profileId)
       .then(
         function(profile) {
-          $scope.myProfile = profile;
-          friendService.findFriendsFriends(profile);
+          $scope.myProfile = profile.data;
+          return $scope.myProfile;
         }
-      );
-    } else {
-      console.log('profile not found.');
-    }
-  };
+      ).then(
+        function(response) {
+          console.log(response);
+          friendService.findFriendsFriends(response)
+          .then(
+            function(newProfile) {
+              $scope.myProfile = newProfile;
+              console.log($scope.myProfile.friends[6].friends[0].name);
+            }
+          );
+      });
+
+      // console.log($scope.myProfile);
+      } else {
+        console.log('profile not found.');
+      }
+    };
 
   $scope.checkForProfile();
+
+  $scope.getProfile = function(profileId) {
+    profileService.getProfile(profileId)
+    .then(
+      function(response) {
+        console.log(response.data.friends[0].name);
+      }
+    );
+  };
 
   $scope.sortOptions = [
     {
@@ -88,18 +109,6 @@ angular.module('devMtIn').controller('homeCtrl', function($scope, profileService
       },
       function(response) {
         console.log(response);
-      }
-    );
-  };
-
-  $scope.getProfileById = function(id) {
-    friendService.getProfileById(id)
-    .then(
-      function(response) {
-        return response;
-      },
-      function(err) {
-        console.log(err);
       }
     );
   };

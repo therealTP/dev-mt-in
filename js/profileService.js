@@ -6,6 +6,7 @@ angular.module('devMtIn').service('profileService', function($http) {
     console.log('Profile service is connected!');
   };
 
+  // create profile, assign id to localstorage
   this.postProfile = function(profileObj) {
     return $http({
       method: 'POST',
@@ -30,7 +31,7 @@ angular.module('devMtIn').service('profileService', function($http) {
     })
     .then(
       function(response) {
-        return response.data;
+        return response;
       },
       function(response) {
         console.log('error with code ' + response.status);
@@ -46,7 +47,6 @@ angular.module('devMtIn').service('profileService', function($http) {
     .then(
       function(response) {
         console.log("Profile successfully deleted");
-        console.log(response);
         return response.data;
       },
       function(response) {
